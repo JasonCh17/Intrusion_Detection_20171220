@@ -49,35 +49,35 @@ X_Scale_1=MinMaxScaler.fit_transform(X_raw_1)
 
 #随机采样式超参数优化方法：
 #用于报告超参数搜索的最好结果的函数
-# def report(results,n_top=3):
-#     for i in range(1,n_top + 1):
-#         candidates=np.flatnonzero(results['rank_test_score']==i)
-#         for candidate in candidates:
-#             print("Model with rank:{0}".format(i))
-#             print("Mean validation score:{0:.3f}±{1:.3f}".format(
-#                 results['mean_test_score'][candidate],
-#                 results['std_test_score'][candidate]))
-#             print("Parameter:{0}".format(results['params'][candidate]))
-#             print("")
-#
-#
-# #构建分类器
-# clf=RandomForestClassifier()
-# #设置想要优化的超参数以及他们的取值分布
-# param_dist={"max_depth":[3,None],
-#             "max_features":sp_randint(1,11),
-#             "min_samples_split":sp_randint(2,11),
-#             "bootstrap":[True,False],
-#             "criterion":["gini","entropy"],
-#             "n_estimators":sp_randint(10,100)}
-# #开启超参数空间的随机搜索
-# n_iter_search=20
-# random_search=RandomizedSearchCV(clf,param_distributions=param_dist, n_iter=n_iter_search,error_score=0)  #,n_jobs=2
-# start=time()
-# random_search.fit(X_Scale_1,y_1)
-# print("RandomizedSearchCV took %.2f seconds for %d candidates"
-#       " parameter settings."% ((time()-start),n_iter_search))
-# report(random_search.cv_results_)
+def report(results,n_top=3):
+    for i in range(1,n_top + 1):
+        candidates=np.flatnonzero(results['rank_test_score']==i)
+        for candidate in candidates:
+            print("Model with rank:{0}".format(i))
+            print("Mean validation score:{0:.3f}±{1:.3f}".format(
+                results['mean_test_score'][candidate],
+                results['std_test_score'][candidate]))
+            print("Parameter:{0}".format(results['params'][candidate]))
+            print("")
+
+
+#构建分类器
+clf=RandomForestClassifier()
+#设置想要优化的超参数以及他们的取值分布
+param_dist={"max_depth":[3,None],
+            "max_features":sp_randint(1,11),
+            "min_samples_split":sp_randint(2,11),
+            "bootstrap":[True,False],
+            "criterion":["gini","entropy"],
+            "n_estimators":sp_randint(10,100)}
+#开启超参数空间的随机搜索
+n_iter_search=20
+random_search=RandomizedSearchCV(clf,param_distributions=param_dist, n_iter=n_iter_search,error_score=0)  #,n_jobs=2
+start=time()
+random_search.fit(X_Scale_1,y_1)
+print("RandomizedSearchCV took %.2f seconds for %d candidates"
+      " parameter settings."% ((time()-start),n_iter_search))
+report(random_search.cv_results_)
 
 # Learning_curve
 
